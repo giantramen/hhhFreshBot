@@ -19,7 +19,7 @@ span {
 }
 
 
-.faq-body {
+#faq-body {
   background-color: black;
 }
 
@@ -35,6 +35,6 @@ p {
   color: white;
 }
 
-.faq-link {
+#faq-link {
   color: white;
 }
