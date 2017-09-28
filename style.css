@@ -3,7 +3,7 @@ body {
   height: 100vh;
 }
 
-a {
+#header-link {
   text-decoration: none;
   color: white;
   margin-left: 10px;
