@@ -4,12 +4,15 @@ body {
 }
 
 a {
+  text-decoration: none;
+  color: white;
+  margin-left: 10px;
+  font-size: 16px;
+  font-family: arial;
+}
+span {
+  margin: 20px;
   position: fixed;
   top: 0;
   right: 20px;
-  text-decoration: none;
-  color: white;
-  font-size: 16px;
-  font-family: arial;
-  margin: 20px;
 }
