@@ -17,3 +17,24 @@ span {
   top: 0;
   right: 20px;
 }
+
+
+.faq-body {
+  color: black;
+}
+
+h1 {
+  color: white;
+}
+
+span {
+  color: white;
+}
+
+p {
+  color: white;
+}
+
+faq-link {
+  color: white;
+}
