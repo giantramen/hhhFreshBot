@@ -166,6 +166,14 @@ def getEmailAddress(phoneNumber, carrier):
         return phoneNumber + '@vzwpix.com'
     if carrier == 'Sprint':
         return phoneNumber + '@pm.sprint.com'
+    if carrier == 'T-Mobile':
+        return phoneNumber + '@tmomail.net'
+    if carrier == 'Virgin Mobile':
+        return phoneNumber + '@vmpix.com'
+    if carrier == 'U.S. Cellular':
+        return phoneNumber + '@mms.uscc.net'
+    if carrier == 'Boost Mobile':
+        return phoneNumber + '@myboostmobile.com'
 
 
 def getLatestSubscriberIndex():
