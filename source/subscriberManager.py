@@ -122,6 +122,9 @@ def getLatestUnsubscribeIndex():
 def unsubscribePhoneNumber(phoneNumber):
     subscribers = getSubscribers()
     print('unsubscribing ' + phoneNumber)
+    text = 'Unsubscribed'
+    email = subscribers[phoneNumber].emailAddress
+    server.sendmail('hiphopheadsbot@gmail.com', email, text)
     subscribers.pop(phoneNumber, None)
     saveSubscribers(subscribers)
 
