@@ -1,6 +1,7 @@
 from __future__ import print_function
 import httplib2
 import os
+import smtplib
 
 from apiclient import discovery
 from oauth2client import client
@@ -18,6 +19,25 @@ except ImportError:
 SCOPES = ('https://www.googleapis.com/auth/gmail.readonly ' + 'https://www.googleapis.com/auth/gmail.modify')
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Gmail API Python Quickstart'
+
+def sendMail(emailAddress, body):
+    server=smtplib.SMTP('smtp.gmail.com', 587, None, 30)
+    server.ehlo()
+    server.starttls()
+
+    with open('gmail_creds.txt') as f:
+        credentials = [x.strip().split(':') for x in f.readlines()]
+
+    for username,password in credentials:
+        server.login(username, password)
+        
+    body = 'Subject: {}\n\n{}'.format('HHH [FRESH] Bot', body)
+        
+    server.sendmail('hiphopheadsbot@gmail.com', emailAddress, body)
+        
+
+    
+    server.quit()
 
 
 def get_credentials():
@@ -61,9 +81,7 @@ def getNumbersToRemove():
     results = service.users().messages().list(userId='me', labelIds='UNREAD').execute()
     messages = results.get('messages', [])
 
-    if not messages:
-        print('No messages found.')
-    else:
+    if messages:
         for m in messages:
             message = service.users().messages().get(userId='me', id=m['id'], format='full').execute()
 

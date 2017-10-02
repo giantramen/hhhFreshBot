@@ -2,18 +2,9 @@ from __future__ import print_function
 import smtplib
 import praw
 import datetime
+import gmailReader
 import time
 import subscriberManager
-
-server=smtplib.SMTP('smtp.gmail.com', 587, None, 30)
-server.ehlo()
-server.starttls()
-
-with open('gmail_creds.txt') as f:
-    credentials = [x.strip().split(':') for x in f.readlines()]
-
-for username,password in credentials:
-    server.login(username, password)
 
 def updateSubscriberSeenPosts(phoneNumber, id):
     subscribers = subscriberManager.getSubscribers()
@@ -35,14 +26,20 @@ def emailSubscribers():
     for phoneNumber, subscriber in subscribers.items():
 
         for submission in subreddit.hot(limit=25):
+            
+            try:
 
-            if 'fresh' in submission.title.lower() and submission.score >= subscriber.upvoteThreshold and submission.id not in subscriber.seenPostIds:
-                    title = submission.title + ' (+' + str(submission.score) + ')'
-                    text = 'New [FRESH] post trending right now!\n'
+                if 'fresh' in submission.title.lower() and submission.score >= subscriber.upvoteThreshold and submission.id not in subscriber.seenPostIds:
+                        title = submission.title + ' (+' + str(submission.score) + ')'
+                        text = 'New [FRESH] post trending right now!\n'
 
-                    server.sendmail('hiphopheadsbot@gmail.com', subscriber.emailAddress, text+title)
+                        gmailReader.sendMail(subscriber.emailAddress, text+title)
 
-                    updateSubscriberSeenPosts(phoneNumber, submission.id)
+                        updateSubscriberSeenPosts(phoneNumber, submission.id)
+                        
+            except Exception as e:
+                print('Error!')
+                print(str(e))
 
 
 if __name__ == "__main__":

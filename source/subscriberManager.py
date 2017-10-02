@@ -18,16 +18,6 @@ try:
 except ImportError:
     flags = None
 
-server=smtplib.SMTP('smtp.gmail.com', 587, None, 30)
-server.ehlo()
-server.starttls()
-
-with open('gmail_creds.txt') as f:
-    credentials = [x.strip().split(':') for x in f.readlines()]
-
-for username,password in credentials:
-    server.login(username, password)
-
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'HHHBot'
@@ -123,8 +113,16 @@ def unsubscribePhoneNumber(phoneNumber):
     subscribers = getSubscribers()
     print('unsubscribing ' + phoneNumber)
     text = 'Unsubscribed'
-    email = subscribers[phoneNumber].emailAddress
-    server.sendmail('hiphopheadsbot@gmail.com', email, text)
+    
+    
+    
+    try:
+        email = subscribers[phoneNumber].emailAddress
+        gmailReader.sendMail(email, text)
+    except Exception as e:
+            print('Error!')
+            print(str(e))
+
     subscribers.pop(phoneNumber, None)
     saveSubscribers(subscribers)
 
@@ -200,7 +198,12 @@ def createSubscriber(phoneNumber, carrier, email, upvoteThreshold):
 
     print("adding/updating subscriber " + phoneNumber)
     text = 'Welcome to the /r/HipHopHeads [FRESH] Bot! Text STOP to quit'
-    server.sendmail('hiphopheadsbot@gmail.com', email, text)
+    
+    try:
+        gmailReader.sendMail(email, text)
+    except Exception as e:
+            print('Error!')
+            print(str(e))
 
     subscribers[phoneNumber] = newSubscriber
 
